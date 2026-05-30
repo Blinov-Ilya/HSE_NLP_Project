@@ -75,7 +75,7 @@ def get_torch_device(requested: str = "auto"):
         return torch.device("cuda")
     if hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
         return torch.device("mps")
-    print("Warning: GPU was not detected. Neural and transformer baselines will run on CPU.")
+    print("Warning: GPU was not detected. Torch-based models will run on CPU.")
     return torch.device("cpu")
 
 

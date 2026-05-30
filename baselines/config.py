@@ -13,16 +13,9 @@ ALL_MODELS = [
     "tfidf_linearsvm",
     "textcnn",
     "bilstm_attention",
-    "distilbert",
-    "roberta",
 ]
 
-QUICK_MODELS = ["most_frequent", "tfidf_logreg", "textcnn", "distilbert"]
-
-TRANSFORMER_CHECKPOINTS = {
-    "distilbert": "distilbert-base-uncased",
-    "roberta": "roberta-base",
-}
+QUICK_MODELS = ["most_frequent", "tfidf_logreg", "textcnn"]
 
 
 @dataclass
@@ -53,11 +46,8 @@ class BaselineConfig:
     epochs: int = 3
     patience: int = 2
     learning_rate: float = 1e-3
-    transformer_learning_rate: float = 2e-5
-    weight_decay: float = 0.01
     num_workers: int = 0
     device: str = "auto"
 
     def path(self, *parts: str) -> Path:
         return self.artifacts_dir.joinpath(*parts)
-

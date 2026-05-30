@@ -59,25 +59,3 @@ class TextSequenceDataset(Dataset):
         }
 
 
-class TransformerMovieDataset(Dataset):
-    def __init__(self, texts, labels: np.ndarray, tokenizer, max_len: int):
-        self.texts = list(texts)
-        self.labels = labels.astype(np.float32)
-        self.tokenizer = tokenizer
-        self.max_len = max_len
-
-    def __len__(self) -> int:
-        return len(self.texts)
-
-    def __getitem__(self, index: int):
-        encoded = self.tokenizer(
-            self.texts[index],
-            truncation=True,
-            padding="max_length",
-            max_length=self.max_len,
-            return_tensors="pt",
-        )
-        item = {key: value.squeeze(0) for key, value in encoded.items()}
-        item["labels"] = torch.tensor(self.labels[index], dtype=torch.float32)
-        return item
-

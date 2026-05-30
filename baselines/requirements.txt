@@ -3,8 +3,6 @@ numpy
 scikit-learn
 matplotlib
 torch
-transformers
 tqdm
 joblib
 pyarrow
-

@@ -3,14 +3,44 @@ from pathlib import Path
 import numpy as np
 import torch
 from sklearn.metrics import f1_score
+from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 
-from baselines.config import BaselineConfig, TRANSFORMER_CHECKPOINTS
+from baselines.config import BaselineConfig
 from baselines.data_utils import DataBundle
 from baselines.thresholding import apply_thresholds, tune_thresholds
-from baselines.torch_datasets import TransformerMovieDataset
 from baselines.utils import ModelResult, get_torch_device, save_json
+
+
+TRANSFORMER_EXPERIMENT_CHECKPOINTS = {
+    "distilbert": "distilbert-base-uncased",
+}
+DEFAULT_TRANSFORMER_LEARNING_RATE = 2e-5
+DEFAULT_TRANSFORMER_WEIGHT_DECAY = 0.01
+
+
+class TransformerMovieDataset(Dataset):
+    def __init__(self, texts, labels: np.ndarray, tokenizer, max_len: int):
+        self.texts = list(texts)
+        self.labels = labels.astype(np.float32)
+        self.tokenizer = tokenizer
+        self.max_len = max_len
+
+    def __len__(self) -> int:
+        return len(self.texts)
+
+    def __getitem__(self, index: int):
+        encoded = self.tokenizer(
+            self.texts[index],
+            truncation=True,
+            padding="max_length",
+            max_length=self.max_len,
+            return_tensors="pt",
+        )
+        item = {key: value.squeeze(0) for key, value in encoded.items()}
+        item["labels"] = torch.tensor(self.labels[index], dtype=torch.float32)
+        return item
 
 
 def _model_dir(config: BaselineConfig, model_name: str) -> Path:
@@ -33,20 +63,20 @@ def _collect_probabilities(model, loader: DataLoader, device) -> np.ndarray:
     return np.vstack(scores)
 
 
-def train_transformer_baseline(model_name: str, bundle: DataBundle, config: BaselineConfig) -> ModelResult:
-    if model_name not in TRANSFORMER_CHECKPOINTS:
-        raise ValueError(f"Unknown transformer baseline: {model_name}")
+def train_transformer_experiment(model_name: str, bundle: DataBundle, config: BaselineConfig) -> ModelResult:
+    if model_name not in TRANSFORMER_EXPERIMENT_CHECKPOINTS:
+        raise ValueError(f"Unknown transformer experiment: {model_name}")
 
     try:
         from transformers import AutoModelForSequenceClassification, AutoTokenizer
     except ImportError as exc:
-        raise ImportError("Install transformers to run transformer baselines.") from exc
+        raise ImportError("Install transformers to run transformer experiments.") from exc
 
-    checkpoint = TRANSFORMER_CHECKPOINTS[model_name]
+    checkpoint = TRANSFORMER_EXPERIMENT_CHECKPOINTS[model_name]
     model_dir = _model_dir(config, model_name)
     device = get_torch_device(config.device)
     if device.type == "cpu":
-        print(f"Warning: running {model_name} on CPU may be slow. Use --quick for debugging.")
+        print(f"Warning: running {model_name} on CPU may be slow. Use a small sample for debugging.")
 
     try:
         tokenizer = AutoTokenizer.from_pretrained(checkpoint)
@@ -91,8 +121,8 @@ def train_transformer_baseline(model_name: str, bundle: DataBundle, config: Base
 
     optimizer = torch.optim.AdamW(
         model.parameters(),
-        lr=config.transformer_learning_rate,
-        weight_decay=config.weight_decay,
+        lr=DEFAULT_TRANSFORMER_LEARNING_RATE,
+        weight_decay=DEFAULT_TRANSFORMER_WEIGHT_DECAY,
     )
 
     best_macro_f1 = -1.0
@@ -155,3 +185,6 @@ def train_transformer_baseline(model_name: str, bundle: DataBundle, config: Base
         metadata={"checkpoint": checkpoint, "best_val_macro_f1": best_macro_f1},
     )
 
+
+def train_distilbert_experiment(bundle: DataBundle, config: BaselineConfig) -> ModelResult:
+    return train_transformer_experiment("distilbert", bundle, config)

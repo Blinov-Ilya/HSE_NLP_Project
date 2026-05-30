@@ -86,10 +86,6 @@ def run_model(model_name: str, bundle: DataBundle, config: BaselineConfig) -> Mo
         from baselines.neural_baselines import train_neural_baseline
 
         return train_neural_baseline(model_name, bundle, config)
-    if model_name in {"distilbert", "roberta"}:
-        from baselines.transformer_baselines import train_transformer_baseline
-
-        return train_transformer_baseline(model_name, bundle, config)
     raise ValueError(f"Unknown model: {model_name}")
 
 
@@ -185,4 +181,3 @@ def main() -> pd.DataFrame:
 
 if __name__ == "__main__":
     main()
-
