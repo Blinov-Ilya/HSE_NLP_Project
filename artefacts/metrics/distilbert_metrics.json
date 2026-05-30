@@ -1,0 +1,38 @@
+{
+  "model": "distilbert",
+  "primary_thresholding": "per_label",
+  "split_method": "temporal_train_le_2023_val_2024_test_2025",
+  "labels": [
+    "Drama",
+    "Documentary",
+    "Comedy",
+    "Horror",
+    "Thriller",
+    "Animation",
+    "Romance",
+    "Music",
+    "Action",
+    "Crime",
+    "Fantasy",
+    "Science Fiction",
+    "Mystery",
+    "Family",
+    "TV Movie"
+  ],
+  "metadata": {
+    "checkpoint": "distilbert-base-uncased",
+    "best_val_macro_f1": 0.5376518480981513
+  },
+  "micro_f1": 0.6317894698738484,
+  "macro_f1": 0.5319503054182433,
+  "weighted_f1": 0.6338355822928463,
+  "samples_f1": 0.6630117031590383,
+  "precision_micro": 0.5910430071114121,
+  "recall_micro": 0.6785700400450994,
+  "hamming_loss": 0.08223286646860284,
+  "precision_at_1": 0.7399502819377918,
+  "precision_at_3": 0.4071727399502819,
+  "recall_at_3": 0.8372663029722085,
+  "subset_accuracy": 0.3694294549202692,
+  "average_precision_micro": 0.6987258667413091
+}

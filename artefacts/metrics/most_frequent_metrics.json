@@ -1,0 +1,57 @@
+{
+  "model": "most_frequent",
+  "primary_thresholding": "per_label",
+  "split_method": "temporal_train_le_2023_val_2024_test_2025",
+  "labels": [
+    "Drama",
+    "Documentary",
+    "Comedy",
+    "Horror",
+    "Thriller",
+    "Animation",
+    "Romance",
+    "Music",
+    "Action",
+    "Crime",
+    "Fantasy",
+    "Science Fiction",
+    "Mystery",
+    "Family",
+    "TV Movie"
+  ],
+  "metadata": {
+    "k": 1,
+    "top_labels": [
+      "Drama"
+    ],
+    "train_label_counts": {
+      "Drama": 30116,
+      "Documentary": 25421,
+      "Comedy": 15775,
+      "Horror": 9570,
+      "Thriller": 7873,
+      "Animation": 7631,
+      "Romance": 6052,
+      "Music": 4607,
+      "Action": 3966,
+      "Crime": 3666,
+      "Fantasy": 3344,
+      "Science Fiction": 3336,
+      "Mystery": 3209,
+      "Family": 2806,
+      "TV Movie": 2678
+    }
+  },
+  "micro_f1": 0.29177524044155967,
+  "macro_f1": 0.036250726589114775,
+  "weighted_f1": 0.13019522940344272,
+  "samples_f1": 0.2922388670903192,
+  "precision_micro": 0.3734008367186079,
+  "recall_micro": 0.23943470316084134,
+  "hamming_loss": 0.12084722811697891,
+  "precision_at_1": 0.3734008367186079,
+  "precision_at_3": 0.2786535702014996,
+  "recall_at_3": 0.6145626716096007,
+  "subset_accuracy": 0.1695264657733584,
+  "average_precision_micro": 0.16847906906461577
+}

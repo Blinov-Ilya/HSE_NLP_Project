@@ -1,0 +1,23 @@
+{
+  "k": 1,
+  "top_labels": [
+    "Drama"
+  ],
+  "train_label_counts": {
+    "Drama": 30116,
+    "Documentary": 25421,
+    "Comedy": 15775,
+    "Horror": 9570,
+    "Thriller": 7873,
+    "Animation": 7631,
+    "Romance": 6052,
+    "Music": 4607,
+    "Action": 3966,
+    "Crime": 3666,
+    "Fantasy": 3344,
+    "Science Fiction": 3336,
+    "Mystery": 3209,
+    "Family": 2806,
+    "TV Movie": 2678
+  }
+}

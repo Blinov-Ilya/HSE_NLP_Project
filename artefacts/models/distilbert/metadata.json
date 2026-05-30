@@ -1,0 +1,21 @@
+{
+  "checkpoint": "distilbert-base-uncased",
+  "labels": [
+    "Drama",
+    "Documentary",
+    "Comedy",
+    "Horror",
+    "Thriller",
+    "Animation",
+    "Romance",
+    "Music",
+    "Action",
+    "Crime",
+    "Fantasy",
+    "Science Fiction",
+    "Mystery",
+    "Family",
+    "TV Movie"
+  ],
+  "best_val_macro_f1": 0.5376518480981513
+}
